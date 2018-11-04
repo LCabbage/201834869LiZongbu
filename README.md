@@ -1,6 +1,5 @@
 Data Mining
 ======
-
 Homework1——Vector Space Model + KNN
 ------
 ## task
@@ -8,7 +7,7 @@ Homework1——Vector Space Model + KNN
 * Implement KNN classifier and test its effect on 20Newsgroups.
 * 20% is used as the test data set to ensure the uniform distribution of documents of each category in the test data
 ## Dataset
-* The [20 Newsgroups dataset(20news-18828.tar.gz)](http://qwone.com/~jason/20Newsgroups/
+  The [20 Newsgroups dataset(20news-18828.tar.gz)](http://qwone.com/~jason/20Newsgroups/
 ) is a collection of approximately 20,000 newsgroup documents, partitioned (nearly) evenly across 20 different newsgroups. 
 
 ## requirements
