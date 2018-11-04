@@ -70,7 +70,7 @@ def compute_cate(test_word_tfidf, train_doc_word_tfidf):
         cateDoc_distance[item[0]] = similarity  # 每一个类别_文档 与和他的距离
     sorted_cateDoc_distance = sorted(cateDoc_distance.items(), key=itemgetter(1), reverse=True)  # <类目_文件名,距离> 按照value降序排序
 
-    # 选择相似度最大的前10/50/25/20的文档
+    # 选择相似度最大的前1/5/10/15/20/25的文档
     k = 20
     category_diatance = {}  # <类，距离和>
     for i in range(k):
@@ -93,7 +93,7 @@ def compute_similarity(test_word_tfidf, train_word_tfidf):
 
     for word, weight in test_word_tfidf.items():
         if word in train_word_tfidf:
-            testList.append(float(weight))  # float()将字符型数据转换成数值型数据，参与下面运算
+            testList.append(float(weight))  # float()将字符型数据转换成数值型数据
             trainList.append(float(train_word_tfidf[word]))  # 获得train里的单词的权重
 
     testVect = mat(testList)  # 列表转矩阵
