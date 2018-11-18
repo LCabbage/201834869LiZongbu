@@ -23,7 +23,7 @@ Homework1——Vector Space Model + KNN
 * k=25 accuracy : 0.836691
 
 ###
-Homework2——Naive Bayes classifier
+Homework2——Naive Bayes Classifier
 ------
 ### Task
     Implement the naive bayes classifier to test its effect on the 20 Newsgroups dataset.
@@ -46,7 +46,7 @@ Here I use the naive bayes multinomial model for classification.
     Calculate conditional probabilities and prior probabilities, use a multinomial model, and use smoothing techniques (to avoid zero) and logarithm (to speed up calculations).</br>
     Classify the text, select the one with the highest probability, and save the results to the document.</br>
 * compute_acc.py</br>
-    Read saved result documents (number, category, forecast category), divide by space, compare whether the category and forecast category are the same, and then calculate the accuracy.
+    Read saved result documents (number, category, forecast category), divide it by spaces, compare whether the category and forecast category are the same, and then calculate the accuracy.
 ### Performance
     分类正确的个数： 3042
     测试集总文档数： 3772
