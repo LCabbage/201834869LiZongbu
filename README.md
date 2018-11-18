@@ -33,8 +33,11 @@ Homework2——Naive Bayes classifier
 
 ### Theory
 多项式模型(multinomial model)即为词频型和伯努利模(Bernoulli model)即文档型。</br>
+多项式模型(multinomial model)</br>
 ![多项式](https://github.com/LCabbage/201834869LiZongbu/raw/master/Homework2/multinomialModel.png)  </br>
+伯努利模(Bernoulli model)</br>
 ![伯努利](https://github.com/LCabbage/201834869LiZongbu/raw/master/Homework2/BernoulliModel.png) </br>
+比较</br>
 ![compare](https://github.com/LCabbage/201834869LiZongbu/raw/master/Homework2/compare.png) </br>
 Here I use the naive bayes multinomial model for classification.
 ### Usage
