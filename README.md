@@ -1,11 +1,12 @@
 Data Mining
 ======
-#### <span id="Homework1——Vector Space Model + KNN">Homework1——Vector Space Model + KNN</span>
-#### <span id="Homework2——Naive Bayes Classifier">Homework2——Naive Bayes Classifier</span>
-#### [Homework3——Clustering with sklearn](#homework3 clustering with sklearn)
+#### <span id="Homework1">Homework1——Vector Space Model + KNN</span>
+#### <span id="Homework2">Homework2——Naive Bayes Classifier</span>
+#### [Homework3——Clustering with sklearn](#homework3)
 
-Homework1——Vector Space Model + KNN
+Homework1
 ------
+## ——Vector Space Model + KNN
 ### Task
 * Preprocess the text data set and get the VSM representation of each text.
 * Implement KNN classifier and test its effect on 20Newsgroups.
@@ -27,8 +28,9 @@ Homework1——Vector Space Model + KNN
 * k=25 accuracy : 0.836691
 
 ###
-Homework2——Naive Bayes Classifier
+Homework2
 ------
+## ——Naive Bayes Classifier
 ### Task
     Implement the naive bayes classifier to test its effect on the 20 Newsgroups dataset.
     
@@ -56,8 +58,9 @@ Here I use the naive bayes multinomial model for classification.
     测试集总文档数： 3772
     准确率： 0.8064687168610817
 ###        
-Homework3 Clustering with sklearn
+Homework3
 ------
+##  ——Clustering with sklearn
 ### Task
     1.Test the clustering effect of the following clustering algorithm in sklearn on tweets data set.
     2.The NMI(Normalized Mutual Information) is used as the evaluation index.
