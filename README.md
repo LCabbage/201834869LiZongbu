@@ -1,7 +1,7 @@
 Data Mining
 ======
-#### <span id="Homework1">Homework1——Vector Space Model + KNN</span>
-#### <span id="Homework2">Homework2——Naive Bayes Classifier</span>
+#### [Homework1——Vector Space Model + KNN](#homework1)
+#### [Homework2——Naive Bayes Classifier](#homework2)
 #### [Homework3——Clustering with sklearn](#homework3)
 
 Homework1
@@ -105,3 +105,5 @@ Homework3
   * Running program for each clustering algorithm
 ### Performance
     The results of each algorithm have been saved to the document, see: result.txt.
+    
+#### [回到顶部](#datamining)
