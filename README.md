@@ -86,10 +86,10 @@ Homework3
     1. Read the text content of the training set
     After reading each document in the folder of a given data set, the text content is written into a TXT, and each behavior is a document, which facilitates the processing of word frequency matrix later. 
     2. Text preprocessing
-    Read the result.txt that holds all the text content before, remove Spaces, punctuation, and word segmentation with stutter. 
+    Read the result.txt that holds all the text content before, remove Spaces, punctuation, word segmentation and other preprocessing. 
     (The above two steps, the teacher has achieved)
     3. Feature extraction
-    Using the tool scikit-learn, CountVectorizer() and TfidfTransformer() are called to calculate the tf-idf value, and the text is converted into a word frequency matrix. The matrix element a[I][j] represents the word frequency of j words in class I text.Save the word frequency matrix in the tf-idf_result document. 
+    Using the tool scikit-learn, CountVectorizer() and TfidfTransformer() are called to calculate the tf-idf value, and the text is converted into a word frequency matrix. The matrix element a[I][j] represents the word frequency of j words in class I text.Save the word frequency matrix in the tfidf_result.txt(weight.pkl) document. 
     4. Each clustering algorithm
     Set parameters according to the characteristics of the clustering algorithm, call sklear.cluster implementation, save the clustering model, and use it for the test set.
     (At the beginning, the implementation of each algorithm was written in a program, but in order to view it separately, each algorithm was written separately, so only the partial clustering method was dimension-reduced and visualized.)
