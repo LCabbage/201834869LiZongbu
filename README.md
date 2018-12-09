@@ -1,4 +1,4 @@
-Data Mining
+DataMining
 ======
 #### [Homework1——Vector Space Model + KNN](#homework1)
 #### [Homework2——Naive Bayes Classifier](#homework2)
