@@ -1,5 +1,9 @@
 Data Mining
 ======
+### <span id="Homework1——Vector Space Model + KNN">Homework1——Vector Space Model + KNN</span>
+### <span id="Homework2——Naive Bayes Classifier">Homework2——Naive Bayes Classifier</span>
+### <span id="Homework3——Clustering with sklearn">Homework3——Clustering with sklearn</span>
+
 Homework1——Vector Space Model + KNN
 ------
 ### Task
