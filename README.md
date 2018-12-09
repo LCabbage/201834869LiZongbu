@@ -2,7 +2,7 @@ Data Mining
 ======
 #### <span id="Homework1——Vector Space Model + KNN">Homework1——Vector Space Model + KNN</span>
 #### <span id="Homework2——Naive Bayes Classifier">Homework2——Naive Bayes Classifier</span>
-#### [Homework3——Clustering with sklearn](#homework3)
+#### [Homework3——Clustering with sklearn](#homework3 clustering with sklearn)
 
 Homework1——Vector Space Model + KNN
 ------
@@ -56,7 +56,7 @@ Here I use the naive bayes multinomial model for classification.
     测试集总文档数： 3772
     准确率： 0.8064687168610817
 ###        
-Homework3——Clustering with sklearn
+Homework3 Clustering with sklearn
 ------
 ### Task
     1.Test the clustering effect of the following clustering algorithm in sklearn on tweets data set.
