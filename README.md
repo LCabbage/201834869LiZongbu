@@ -75,7 +75,7 @@ Homework3
     Numpy (>=1.6.1)
     Scipy (>=0.9)
 ### Propaedeutics
-    scikit-learn
+    scikit-learn(https://scikit-learn.org/stable/modules/clustering.html API: https://scikit-learn.org/stable/modules/classes.html#)
     tf-idf
     clustering methods
     Clustering performance evaluation
