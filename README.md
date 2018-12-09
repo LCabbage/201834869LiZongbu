@@ -96,8 +96,8 @@ Homework3
     5. Test set classification
     Test the test set text using clf.fit_predict. 
     6. Clustering performance evaluation (used here is: NMI)
-    8. Call PCA to lower the dimension
-    7. Call matplotlib for visualization
+    7. Call PCA to lower the dimension
+    8. Call matplotlib for visualization
 ### Usage
   * sklearn_tfidf.py</br>
     1.Read the raw data and save the text content and clustering categories separately for later use.</br>
