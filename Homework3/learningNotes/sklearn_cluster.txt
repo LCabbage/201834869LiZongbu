@@ -1,0 +1,203 @@
+1、KMeans、MiniBatchKMeans: （实现给定聚类个数）
+    KMeans(algorithm='auto', copy_x=True, init='k-means++', max_iter=300,
+        n_clusters=89, n_init=10, n_jobs=1, precompute_distances='auto',
+        random_state=None, tol=0.0001, verbose=0)
+    1) n_clusters: 簇的个数，即你想聚成几类，一般需要多试一些值以获得较好的聚类效果。k值好坏的评估标准在下面会讲。
+    2）max_iter： 最大的迭代次数，一般如果是凸数据集的话可以不管这个值，如果数据集不是凸的，可能很难收敛，此时可以指定最大的迭代次数让算法可以及时退出循环。
+    3）n_init：用不同的初始化质心运行算法的次数。由于K-Means是结果受初始值影响的局部最优的迭代算法，因此需要多跑几次以选择一个较好的聚类效果，默认是10，一般不需要改。如果你的k值较大，则可以适当增大这个值。
+    4）init： 初始簇中心的获取方法，可以为完全随机选择'random',优化过的'k-means++'或者自己指定初始化的k个质心。一般建议使用默认的'k-means++'。
+    5）algorithm：有“auto”, “full” or “elkan”三种选择。"full"就是我们传统的K-Means算法， “elkan”是elkan K-Means算法。
+       默认的"auto"则会根据数据值是否是稀疏的，来决定如何选择"full"和“elkan”。一般数据是稠密的，那么就是 “elkan”，否则就是"full"。一般来说建议直接用默认的"auto"
+    6）random_state: 随机生成簇中心的状态条件。
+    7）tol: 容忍度，即kmeans运行准则收敛的条件
+    8）verbose: 冗长模式（不太懂是啥意思，反正一般不去改默认值）
+    9）precompute_distances：是否需要提前计算距离，这个参数会在空间和时间之间做权衡，
+       如果是True 会把整个距离矩阵都放到内存中，auto 会默认在数据样本大于featurs*samples 的数量大于12e6 的时候False,False 时核心实现的方法是利用Cpython 来实现的
+    10）copy_x: 对是否修改数据的一个标记，如果True，即复制了就不会修改数据。bool 在scikit-learn 很多接口中都会有这个参数的，就是是否对输入数据继续copy 操作，以便不修改用户的输入数据。这个要理解Python 的内存机制才会比较清楚。
+    11）n_jobs: 并行设置，进程个数，为-1的时候是指默认跑满CPU
+    步骤：
+    从N个点随机选取K个点作为质心
+    对剩余的每个点测量其到每个质心的距离，并把它归到最近的质心的类
+    重新计算已经得到的各个类的质心
+    迭代n步直至新的质心与原质心相等或小于指定阈值，算法结束
+    优点：
+    k-平均算法是解决聚类问题的一种经典算法，算法简单、快速。
+    对处理大数据集，该算法是相对可伸缩的和高效率的，因为它的复杂度大约是O（nkt），其中n是所有对象的数目，k是簇的数目，t是迭代的次数。通常k<<n。这个算法经常以局部最优结束。
+    算法尝试找出使平方误差函数值最小的k个划分。当簇是密集的、球状或团状的，而簇与簇之间区别明显时，它的聚类效果很好。
+    缺点：
+    K 是事先给定的，这个 K 值的选定是非常难以估计的；
+    对初值敏感，对于不同的初始值，可能会导致不同的聚类结果。一旦初始值选择的不好，可能无法得到有效的聚类结果；
+    该算法需要不断地进行样本分类调整，不断地计算调整后的新的聚类中心，因此当数据量非常大时，算法的时间开销是非常大的。
+    不适合于发现非凸面形状的簇，或者大小差别很大的簇；
+    对于”噪声”和孤立点数据敏感，少量的该类数据能够对平均值产生极大影响。
+
+    MiniBatchKMeans(batch_size=100, compute_labels=True, init='k-means++',
+        init_size=None, max_iter=100, max_no_improvement=10, n_clusters=89,
+        n_init=3, random_state=None, reassignment_ratio=0.01, tol=0.0,
+        verbose=0)
+    MiniBatchKMeans是KMeans算法的变体，其每次从全部数据集中抽样小数据集进行迭代。Mini Batch K-Means 算法在不对聚类效果造成较大影响的前提下，大大缩短了计算时间。
+
+    #调用kmeans类
+    clf = KMeans(n_clusters=9)
+    s = clf.fit(feature)
+    print(s)
+    #9个中心
+    print clf.cluster_centers_
+    #每个样本所属的簇
+    print clf.labels_
+    #用来评估簇的个数是否合适，距离越小说明簇分的越好，选取临界点的簇个数
+    print clf.inertia_
+    #进行预测
+    print clf.predict(feature)
+    #保存模型
+    joblib.dump(clf , 'c:/km.pkl')
+    #载入保存的模型
+    clf = joblib.load('c:/km.pkl')
+
+    '''
+    #用来评估簇的个数是否合适，距离越小说明簇分的越好，选取临界点的簇个数
+    for i in range(5,30,1):
+        clf = KMeans(n_clusters=i)
+        s = clf.fit(feature)
+        print i , clf.inertia_
+
+2、AffinityPropagation 近邻传播算法（不需要提前规定聚类个数）
+    AffinityPropagation(affinity='euclidean', convergence_iter=15, copy=True,
+              damping=0.5, max_iter=300, preference=None, verbose=False)
+
+    damping=0.5：阻尼系数，设置为 0.5 到 1 之间；
+    max_iter=200：最大迭代次数；
+    convergence_iter=15：聚类个数连续 convergence_iter 次迭代都不再改变，就停止迭代；
+    copy=True：在 scikit-learn 很多接口中都会有这个参数的，就是是否对输入数据进行 copy 操作，以便不修改用户的输入数据；
+    preference=None： array-like, shape (n_samples,) 或者 float，如果不指定，则都设为相似度矩阵中的中位数；
+    affinity=’euclidean’： string，“precomputed” 或者 “euclidean”，“euclidean” 采用负的欧几里得距离；
+    verbose=False： int 类型，是否输出详细信息；
+
+    优点：不需要提前规定聚类个数；
+    缺点：时间复杂度（O(N2T)）和空间复杂度（O(N2)）都很高，其中 N 为样本个数，T 为迭代次数；
+
+3、MeanShift 均值漂移聚类
+    MeanShift(bandwidth=1.4142135623730954, bin_seeding=True, cluster_all=True,
+         min_bin_freq=1, n_jobs=1, seeds=None)
+    寻找核密度极值点并作为簇的质心，然后根据最近邻原则将样本点赋予质心
+    算法初始化一个质心(向量表示)，每一步迭代都会朝着当前质心领域内密度极值方向漂移，方向就是密度上升最大的方向，即梯度方向（参考资料）。求导即得漂移向量的终点就是下一个质心
+    estimate_bandwidth()用于生成mean - shift窗口的尺寸，其参数的意义为：从数据中随机选取(n_samples=500)500个样本，计算每一对样本的距离，然后选取这些距离的(quantile=0.2)0.2分位数作为返回值，
+
+    Mean Shift 聚类的目的是找出最密集的区域， 同样也是一个迭代过程。在聚类过程中，首先算出初始中心点的偏移均值，将该点移动到此偏移均值，然后以此为新的起始点，继续移动，直到满足最终的条件。
+    Mean Shift 也引入了核函数，用于改善聚类效果。除此之外，Mean Shift 在图像分割，视频跟踪等领域也有较好的应用。
+
+4、SpectralClustering 谱聚类
+    SpectralClustering(affinity='rbf', assign_labels='kmeans', coef0=1, degree=3,
+              eigen_solver=None, eigen_tol=0.0, gamma=1.0, kernel_params=None,
+              n_clusters=89, n_init=10, n_jobs=1, n_neighbors=10,
+              random_state=None)
+    构建样本集的相似度矩阵W。#.affinity_matrix_：亲和度矩阵
+    对相似度矩阵W进行稀疏化，形成新的相似度矩阵A。
+    构建相似度矩阵A的拉普拉斯矩阵L。
+    计算拉普拉斯矩阵L的前k个特征值与特征向量，构建特征向量空间。
+    将前k个特征向量（列向量）组合成N*k的矩阵，每一行看成k维空间的一个向量，利用K-means或其它经典聚类算法对该矩阵进行聚类。
+
+    谱聚类一开始将特征空间中的点用边连接起来。其中，两个点距离越远，那么边所对应的权值越低。同样，距离越近，那么边对应的权值越高。
+    最后，通过对所有特征点组成的网络进行切分，让切分后的子图互相连接的边权重之和尽可能的低，而各子图内部边组成的权值和经可能高，从而达到聚类的效果。
+    谱聚类的好处是能够识别任意形状的样本空间，并且可以得到全局最优解。
+
+5、hierarchical clustering 层次聚类
+    AgglomerativeClustering(affinity='euclidean', compute_full_tree='auto',
+                connectivity=None, linkage='ward', memory=None, n_clusters=89,
+                pooling_func=<function mean at 0x0000026964BAB7B8>)
+    参数：
+    n_clusters：一个整数，指定分类簇的数量
+    connectivity：一个数组或者可调用对象或者None，用于指定连接矩阵
+    affinity：一个字符串或者可调用对象，用于计算距离。可以为：’euclidean’，’l1’，’l2’，’mantattan’，’cosine’，’precomputed’，如果linkage=’ward’，则affinity必须为’euclidean’
+    memory：用于缓存输出的结果，默认为不缓存
+    n_components：在 v-0.18中移除
+    compute_full_tree：通常当训练了n_clusters后，训练过程就会停止，但是如果compute_full_tree=True，则会继续训练从而生成一颗完整的树
+    linkage：一个字符串，用于指定链接算法
+        ‘ward’：单链接single-linkage，采用dmindmin
+        ‘complete’：全链接complete-linkage算法，采用dmaxdmax
+        ‘average’：均连接average-linkage算法，采用davgdavg
+    pooling_func：一个可调用对象，它的输入是一组特征的值，输出是一个数
+
+    划分策略可分为1、自底向上的凝聚方法（agglomerative hierarchical clustering），比如AGNES。
+    2、自上向下的分裂方法（divisive hierarchical clustering），比如DIANA。
+    AGNES先将所有样本的每个点都看成一个簇，然后找出距离最小的两个簇进行合并，不断重复到预期簇或者其他终止条件。
+    DIANA先将所有样本当作一整个簇，然后找出簇中距离最远的两个簇进行分裂，不断重复到预期簇或者其他终止条件。
+
+    主要有三种聚类准则：
+    complete(maximum) linkage: 两类间的距离用最远点距离表示。
+    avarage linkage:平均距离。
+    ward's method: 以组内平方和最小，组间平方和最大为目的。（默认）
+
+    属性
+    labels：每个样本的簇标记
+    n_leaves_：分层树的叶节点数量
+    n_components：连接图中连通分量的估计值
+    children：一个数组，给出了每个非节点数量
+    方法
+    fit(X[,y])：训练样本
+    fit_predict(X[,y])：训练模型并预测每个样本的簇标记
+
+6、DBSCAN :不需要输入类别数k
+    DBSCAN(algorithm='auto', eps=0.5, leaf_size=30, metric='euclidean',
+        metric_params=None, min_samples=5, n_jobs=1, p=None)
+
+    先来看看DBSCAN一些关键概念的定义：
+    1. ϵ邻域：给定对象半径ϵϵ内的区域称为该对象的ϵ邻域。
+    2. 核心对象（core points）：如果给定对象ϵϵ邻域内的样本点数大于等于MinPts，则称该对象为核心对象。
+    3. 直接密度可达（directly density-reachable）：给定一个对象集合D，如果p在q的ϵϵ的邻域内，且q是一个核心对象，则我们说对象p从对象q出发是直接密度可达的。
+    4. 密度可达（density-reachable）：对于样本集合D，如果存在一个对象链P1,P2,...,Pn,P1=q,Pn=pP1,P2,...,Pn,P1=q,Pn=p，对于Pi∈D,1≤i≤n,Pi∈D,1≤i≤n，Pi+1是从Pi关于ϵ和MinPts直接密度可达，则对象p是从对象q关于ϵ和MinPts密度可达的。
+    5. 密度相连（density-connected）：如果存在对象o∈Do∈D，使对象p和q都是从o关于ϵϵ和MinPts密度可达的，那么对象p到q是关于ϵ和MinPts密度相连的。
+
+    算法（DBSCAN）:
+    输入：半径ϵ，给定点在ϵ邻域内成为核心对象的最小邻域点数MinPts，数据集D
+    输出：目标类簇集合
+    Repeat:
+    (1) 判断输入点是否为核心对象
+    (2) 找出核心对象的ϵ邻域中的所有直接密度可达点
+    Until 所有输入点都判断完毕
+    Repeat:
+    针对所有核心对象的ϵ邻域内所有直接密度可达点找到最大密度相连对象集合，中间涉及到一些密度可达对象的合并
+    Until 所有核心对象的ϵ邻域都遍历完毕
+
+    属性：
+    core_sample_indices_ : 核心点的索引，因为labels_不能区分核心点还是边界点，所以需要用这个索引确定核心点
+    components_：训练样本的核心点
+    labels_：每个点所属集群的标签，-1代表噪声点
+
+    DBSCAN 基于密度概念，要求聚类空间中的一定区域内所包含的样本数目不小于某一给定阈值。
+    算法运行速度快，且能够有效处理特征空间中存在的噪声点。但是对于密度分布不均匀的样本集合，DBSCAN 的表现较差。
+
+7、Gaussian mixtures  高斯混合模型(EM)
+    GMM没有 labels_属性，pred_label可以用fit_pridict：
+    print(clf.labels_)  # print(clf.predict(weight)) #这两个输出一样
+    # print(clf.fit_predict(weight)) #返回各自文本的所被分配到的类索引
+    或者：和fit合并直接输出预测标签！！！！！
+    # pred_label = clf.fit_predict(weight)
+    # 甚至 pred_label = MiniBatchKMeans(n_clusters=num, max_iter=300).fit_predict(weight)
+
+    GaussianMixture(covariance_type='diag', init_params='kmeans', max_iter=100,
+            means_init=None, n_components=89, n_init=1, precisions_init=None,
+            random_state=None, reg_covar=1e-06, tol=0.001, verbose=0,
+            verbose_interval=10, warm_start=False, weights_init=None)
+    1. n_components: 混合高斯模型个数，默认为 1
+    2. covariance_type: 协方差类型，包括 {‘full’,‘tied’, ‘diag’, ‘spherical’} 四种，full 指每个分量有各自不同的标准协方差矩阵，完全协方差矩阵（元素都不为零）， tied 指所有分量有相同的标准协方差矩阵（HMM 会用到），diag 指每个分量有各自不同对角协方差矩阵（非对角为零，对角不为零）， spherical 指每个分量有各自不同的简单协方差矩阵，球面协方差矩阵（非对角为零，对角完全相同，球面特性），默认‘full’ 完全协方差矩阵
+    3. tol：EM 迭代停止阈值，默认为 1e-3.
+    4. reg_covar: 协方差对角非负正则化，保证协方差矩阵均为正，默认为 0
+    5. max_iter: 最大迭代次数，默认 100
+    6. n_init: 初始化次数，用于产生最佳初始参数，默认为 1
+    7. init_params: {‘kmeans’, ‘random’}, defaults to ‘kmeans’. 初始化参数实现方式，默认用 kmeans 实现，也可以选择随机产生
+    8. weights_init: 各组成模型的先验权重，可以自己设，默认按照 7 产生
+    9. means_init: 初始化均值，同 8
+    10. precisions_init: 初始化精确度（模型个数，特征个数），默认按照 7 实现
+    11. random_state : 随机数发生器
+    12. warm_start : 若为 True，则 fit（）调用会以上一次 fit（）的结果作为初始化参数，适合相同问题多次 fit 的情况，能加速收敛，默认为 False。
+    13. verbose : 使能迭代信息显示，默认为 0，可以为 1 或者大于 1（显示的信息不同）
+    14. verbose_interval : 与 13 挂钩，若使能迭代信息显示，设置多少次迭代后显示信息，默认 10 次。
+
+8、Birch
+    Birch 引入了聚类特征树（CF树），先通过其他的聚类方法将其聚类成小的簇，然后再在簇间采用 CF 树对簇聚类。
+    Birch 的优点是，只需要单次扫描数据集即可完成聚类，运行速度较快，特别适合大数据集。
+    1) threshold:即叶节点每个CF的最大样本半径阈值T，它决定了每个CF里所有样本形成的超球体的半径阈值。一般来说threshold越小，则CF Tree的建立阶段的规模会越大，即BIRCH算法第一阶段所花的时间和内存会越多。但是选择多大以达到聚类效果则需要通过调参决定。默认值是0.5.如果样本的方差较大，则一般需要增大这个默认值。
+    2) branching_factor：即CF Tree内部节点的最大CF数B，以及叶子节点的最大CF数L。这里scikit-learn对这两个参数进行了统一取值。也就是说，branching_factor决定了CF Tree里所有节点的最大CF数。默认是50。如果样本量非常大，比如大于10万，则一般需要增大这个默认值。选择多大的branching_factor以达到聚类效果则需要通过和threshold一起调参决定
+    3）n_clusters：即类别数K，在BIRCH算法是可选的，如果类别数非常多，我们也没有先验知识，则一般输入None，此时BIRCH算法第4阶段不会运行。但是如果我们有类别的先验知识，则推荐输入这个可选的类别值。默认是3，即最终聚为3类。
+    4）compute_labels：布尔值，表示是否标示类别输出，默认是True。一般使用默认值挺好，这样可以看到聚类效果。

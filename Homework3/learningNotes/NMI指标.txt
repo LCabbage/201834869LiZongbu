@@ -1,0 +1,4 @@
+标准化互信息NMI计算步骤及其Python实现
+
+scikit-learn : https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation
+NMI : https://blog.csdn.net/DreamHome_S/article/details/78379635 (详见保存的PDF:标准化互信息NMI计算步骤及其Python实现.pdf)

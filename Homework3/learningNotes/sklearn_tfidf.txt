@@ -1,0 +1,65 @@
+Scikit-Learn中TF-IDF权重计算：CountVectorizer和TfidfTransformer
+
+1.CountVectorizer：得到词频矩阵
+    CountVectorizer类会将文本中的词语转换为词频矩阵，例如矩阵中包含一个元素a[i][j]，它表示j词在i类文本下的词频。
+    它通过fit_transform函数计算各个词语出现的次数，通过get_feature_names()可获取词袋中所有文本的关键字，通过toarray()可看到词频矩阵的结果。
+    例子：
+    # coding:utf-8
+    from sklearn.feature_extraction.text import CountVectorizer
+    #语料
+    corpus = [
+        'This is the first document.',
+        'This is the second second document.',
+        'And the third one.',
+        'Is this the first document?',
+    ]
+    #将文本中的词语转换为词频矩阵
+    vectorizer = CountVectorizer()
+    #计算个词语出现的次数
+    X = vectorizer.fit_transform(corpus)
+    #获取词袋中所有文本关键词
+    word = vectorizer.get_feature_names()
+    print (word)
+    #查看词频结果
+    print (X.toarray())
+
+    输出结果：
+    [u'and', u'document', u'first', u'is', u'one', u'second', u'the', u'third', u'this']
+    [[0 1 1 1 0 0 1 0 1]
+     [0 1 0 1 0 2 1 0 1]
+     [1 0 0 0 1 0 1 1 0]
+     [0 1 1 1 0 0 1 0 1]]   # 词频矩阵
+    从结果中可以看到，总共包括9个特征词，即：(几个特征词就几维)
+    [u'and', u'document', u'first', u'is', u'one', u'second', u'the', u'third', u'this']
+    同时在输出每个句子中包含特征词的个数。例如，第一句“This is the first document.”，它对应的词频为[0, 1, 1, 1, 0, 0, 1, 0, 1]，
+    假设初始序号从1开始计数，则该词频表示存在第2个位置的单词“document”共1次、第3个位置的单词“first”共1次、第4个位置的单词“is”共1次、第9个位置的单词“this”共1词。
+    所以，每个句子都会得到一个词频向量。
+
+2.TfidfTransformer : 每个词的TF-IDF值
+    TfidfTransformer用于统计vectorizer中每个词语的TF-IDF值。
+    例子：
+    上面的代码接着：
+    from sklearn.feature_extraction.text import TfidfTransformer
+    #类调用
+    transformer = TfidfTransformer()
+    print (transformer)
+    #将词频矩阵X统计成TF-IDF值
+    tfidf = transformer.fit_transform(X)
+    #查看数据结构 tfidf[i][j]表示i类文本中的tf-idf权重
+    print (tfidf.toarray())
+
+3.如果需要同时进行词频统计并计算TF-IDF值，则使用核心代码：
+
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.feature_extraction.text import CountVectorizer
+
+vectorizer=CountVectorizer()#该类会将文本中的词语转换为词频矩阵，矩阵元素a[i][j] 表示j词在第i类（个）文本下的词频
+transformer=TfidfTransformer()#该类会统计每个词语的tf-idf权值
+tfidf=transformer.fit_transform(vectorizer.fit_transform(corpus))#第一个fit_transform是计算tf-idf，第二个fit_transform是将文本转为词频矩阵
+word=vectorizer.get_feature_names()#获取词袋模型中的所有词语(所有文本的单词，去重的)
+weight=tfidf.toarray()#将tf-idf矩阵抽取出来，元素a[i][j]表示j词在i类文本中的tf-idf权重
+for i in range(len(weight)):#打印每类文本的tf-idf词语权重，第一个for遍历所有文本，第二个for便利某一类文本下的词语权重
+    print ("-------这里输出第",i,"类文本的词语tf-idf权重------")
+    for j in range(len(word)):
+        print (word[j],weight[i][j])
+##参考来源：https://blog.csdn.net/Eastmount/article/details/50323063
